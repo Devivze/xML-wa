@@ -317,7 +317,7 @@ def disp_pdp_graph(display_pdp,x_ax,y_ax):
         else:
             
             for k in list(PDP_interact.keys()): 
-                if x_ax in k and y_ax in k:
+                if str([x_ax + y_ax]) == k:
                     pdp_interact = PDP_interact[k]
            
             fig = go.Figure()
@@ -440,8 +440,8 @@ def disp_SHAP(display_SHAP,SHAP_type):
                             dcc.Store(id='offcanvas_type', data='shap_sum')
                             ])
         else:
-            data = X_valid.iloc[1000:1001]
-            output = y_valid.iloc[1000:1001]
+            data = X_valid.iloc[1:2]
+            output = y_valid.iloc[1:2]
             shap_values = SHAP["shap_values_single"]
             prediction = SHAP["prediction"]
             pred_err = abs(round(output.values[0] - prediction[0],3))
@@ -841,15 +841,15 @@ def PDPrange(slider,state,Rtype,x_ax,y_ax):
                                              colorbar = dict(separatethousands = False,xanchor = "left",  title='GKPI')
                                          )])
             fig.update_layout(template="plotly_white", autosize=False,
-                              xaxis_title=y_ax,
-                              yaxis_title=x_ax,
+                              xaxis_title=dependence.features[1],
+                              yaxis_title=dependence.features[0],
                            width=550, height=550,
                            title="Fixed feature - "+Rtype+ " in range [" +str(state[0])+":"+str(state[1])+"]" ,
                            margin=dict(l=65, r=50, b=65, t=90),
                            ),
                 
             for k in list(PDP_interact.keys()): 
-                if x_ax in k and y_ax in k:
+                if str([x_ax + y_ax]) == k:
                     pdp_interact = PDP_interact[k]
            
             fig1 = go.Figure()
@@ -865,8 +865,8 @@ def PDPrange(slider,state,Rtype,x_ax,y_ax):
                                              colorbar = dict(separatethousands = False,xanchor = "left",  title='GKPI')
                                          )])
             fig1.update_layout(template="plotly_white", autosize=False,
-                              xaxis_title=y_ax,
-                              yaxis_title=x_ax,
+                              xaxis_title=pdp_interact.features[1],
+                              yaxis_title=pdp_interact.features[0],
                            width=550, height=550,
                            title="Initial values" ,
                            margin=dict(l=65, r=50, b=65, t=90),
